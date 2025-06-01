@@ -92,7 +92,9 @@ func (a *account) check_bal() {
 // Check transaction history
 
 func (a *account) get_trans_hist() {
-	fmt.Printf("Your account history is: %v", a.trans_hist)
+	fmt.Println("Your account history is:")
+	printTrans(a.trans_hist)
+	// fmt.Printf("Type of trans_hist is: %T", a.trans_hist)
 }
 
 // Transfer to another account
