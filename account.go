@@ -11,6 +11,7 @@ type transaction struct {
 	amnt       float64
 	source     string
 	dest       string
+	bal        float64
 	success    bool
 }
 
@@ -64,8 +65,11 @@ func (a *account) deposit(amnt float64) {
 		amnt:       amnt,
 		source:     "",
 		dest:       a.acct_num,
+		bal:        a.bal,
 		success:    true,
 	}
+
+	fmt.Printf("Dear %v,\n a sum of %v has been deposited into your account %v. Your updated balance is %v", a.name, amnt, a.acct_num, a.bal)
 }
 
 // Withdraw
@@ -102,7 +106,6 @@ func (a *account) get_trans_hist() {
 func (a *account) transfer(acct *account, amnt float64) {
 	if a.bal >= amnt {
 		a.__trans_size__ += 1
-		acct.bal += amnt
 		a.bal -= amnt
 		a.trans_hist[a.__trans_size__] = transaction{
 			date:       "dd/mm/yyyy",
@@ -110,6 +113,20 @@ func (a *account) transfer(acct *account, amnt float64) {
 			amnt:       amnt,
 			source:     a.acct_num,
 			dest:       acct.acct_num,
+			bal:        a.bal,
+			success:    true,
+		}
+
+		// update reciepient history & balance
+		acct.bal += amnt
+		acct.__trans_size__ += 1
+		acct.trans_hist[acct.__trans_size__] = transaction{
+			date:       "dd/mm/yyyy",
+			trans_type: "credit",
+			amnt:       amnt,
+			source:     a.acct_num,
+			dest:       acct.acct_num,
+			bal:        acct.bal,
 			success:    true,
 		}
 	} else {
@@ -120,5 +137,9 @@ func (a *account) transfer(acct *account, amnt float64) {
 // Print account statement
 
 func (a *account) acct_statement() {
+	fmt.Printf("Name: %-125s\nPhone Number: %-125s\n Account Number: %20v\t Account Type: %20v\t Limit:%20.2f\n", a.name, a.phone_num, a.acct_num, a.acct_type, a.limit)
+	fmt.Println(strings.Repeat("-", 125))
+	printTrans(a.trans_hist)
+	fmt.Println(strings.Repeat("=", 125))
 
 }
