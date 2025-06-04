@@ -45,13 +45,13 @@ func create_acct(name string, phone_num string, acct_type string) account {
 
 // View account
 
-func (a *account) print_acct() {
-	fmt.Printf("Account Name: %v \n", a.name)
-	fmt.Printf("Phone Number: %v \n", a.phone_num)
-	fmt.Printf("Account Number: %v \n", a.acct_num)
-	fmt.Printf("Account Type: %v \n", a.acct_type)
-	fmt.Printf("Account Balance: %v \n", a.bal)
-}
+// func (a *account) print_acct() {
+// 	fmt.Printf("Account Name: %v \n", a.name)
+// 	fmt.Printf("Phone Number: %v \n", a.phone_num)
+// 	fmt.Printf("Account Number: %v \n", a.acct_num)
+// 	fmt.Printf("Account Type: %v \n", a.acct_type)
+// 	fmt.Printf("Account Balance: %v \n", a.bal)
+// }
 
 // Deposit
 
@@ -69,7 +69,7 @@ func (a *account) deposit(amnt float64) {
 		success:    true,
 	}
 
-	fmt.Printf("Dear %v,\n a sum of %v has been deposited into your account %v. Your updated balance is %v", a.name, amnt, a.acct_num, a.bal)
+	fmt.Printf("Dear %v,\n a sum of %v has been deposited into your account %v. Your updated balance is %v.\n", a.name, amnt, a.acct_num, a.bal)
 }
 
 // Withdraw
@@ -83,6 +83,7 @@ func (a *account) withdraw(amnt float64) {
 		amnt:       amnt,
 		source:     a.acct_num,
 		dest:       "",
+		bal:        a.bal,
 		success:    true,
 	}
 }
@@ -90,7 +91,7 @@ func (a *account) withdraw(amnt float64) {
 // Get account balance
 
 func (a *account) check_bal() {
-	fmt.Printf("Your account balance is: %v \n", a.bal)
+	fmt.Printf("Your account balance on %v is: %v \n", a.acct_num, a.bal)
 }
 
 // Check transaction history
